@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Liberação Veicular - PMSC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .login-container, .form-container, .document-type-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .login-title, .document-type-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1a3a8b;
+        }
+        
+        .login-buttons, .document-type-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .login-btn, .document-type-btn {
+            background-color: #1a3a8b;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover, .document-type-btn:hover {
+            background-color: #0f276b;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1a3a8b;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .btn {
+            background-color: #1a3a8b;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #0f276b;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Estilo para o PDF */
+        .pdf-container {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .pdf-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .pdf-header-text {
+            text-align: left;
+        }
+        
+        .pdf-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        
+        .pdf-content {
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        .pdf-section {
+            margin-bottom: 15px;
+        }
+        
+        .pdf-notification {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .pdf-signature {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .signature-box {
+            text-align: center;
+            width: 48%;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+        
+        .signature-names {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+        }
+        
+        .name-box {
+            text-align: center;
+            width: 48%;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+        
+        .pdf-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+        
+        .pdf-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .pdf-container, .pdf-container * {
+                visibility: visible;
+            }
+            .pdf-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+            }
+            .pdf-actions {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .login-buttons, .document-type-buttons {
+                flex-direction: column;
+            }
+            
+            .login-btn, .document-type-btn {
+                width: 100%;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Página de Login -->
+        <div id="loginPage" class="login-container">
+            <h2 class="login-title">Sistema de Liberação Veicular - PMSC</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Selecione seu usuário para acessar o sistema:</p>
+            <div class="login-buttons">
+                <button class="login-btn" onclick="login('CB PM ANDRADE 934177-3')">CB PM ANDRADE 934177-3</button>
+                <button class="login-btn" onclick="login('SD PM BIANCA 620218-7')">SD PM BIANCA 620218-7</button>
+            </div>
+        </div>
+        
+        <!-- Seleção do Tipo de Documento -->
+        <div id="documentTypePage" class="document-type-container hidden">
+            <h2 class="document-type-title">Selecione o Tipo de Documento</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Escolha o modelo de documento que deseja gerar:</p>
+            <div class="document-type-buttons">
+                <button class="document-type-btn" onclick="selectDocumentType('liberacao')">TERMO DE ENTREGA E LIBERAÇÃO</button>
+                <button class="document-type-btn" onclick="selectDocumentType('provisoria')">TERMO DE ENTREGA E LIBERAÇÃO PROVISÓRIA</button>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="voltarLogin()">Voltar</button>
+            </div>
+        </div>
+        
+        <!-- Formulário de Liberação Normal -->
+        <div id="formLiberacaoPage" class="form-container hidden">
+            <h2 class="form-title">TERMO DE ENTREGA E LIBERAÇÃO</h2>
+            
+            <form id="vehicleFormLiberacao">
+                <div class="form-group">
+                    <label for="placa">Placa do Veículo:</label>
+                    <input type="text" id="placa" placeholder="Ex: MBY3809" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="renavam">RENAVAM:</label>
+                    <input type="text" id="renavam" placeholder="Ex: 13184521360" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cidadeEstado">Cidade/Estado:</label>
+                    <input type="text" id="cidadeEstado" placeholder="Ex: ITAPOA/SC" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="valor">Valor do Serviço (R$):</label>
+                    <input type="text" id="valor" placeholder="Ex: 100,00" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nomeProprietario">Nome do Proprietário:</label>
+                    <input type="text" id="nomeProprietario" placeholder="Ex: ERICK" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cpfProprietario">CPF do Proprietário:</label>
+                    <input type="text" id="cpfProprietario" placeholder="Ex: 05682203909" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nomeCondutor">Nome do Condutor:</label>
+                    <input type="text" id="nomeCondutor" placeholder="Ex: THAIS" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cnhCondutor">CNH do Condutor:</label>
+                    <input type="text" id="cnhCondutor" placeholder="Ex: 05682203909" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="categoriaCNH">Categoria da CNH:</label>
+                    <select id="categoriaCNH" required>
+                        <option value="">Selecione</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="AE">AE</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" onclick="gerarPDF('liberacao')">Gerar Documento</button>
+                    <button type="button" class="btn btn-secondary" onclick="voltarDocumentType()">Voltar</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Formulário de Liberação Provisória -->
+        <div id="formProvisoriaPage" class="form-container hidden">
+            <h2 class="form-title">TERMO DE ENTREGA E LIBERAÇÃO PROVISÓRIA</h2>
+            
+            <form id="vehicleFormProvisoria">
+                <div class="form-group">
+                    <label for="placaProvisoria">Placa do Veículo:</label>
+                    <input type="text" id="placaProvisoria" placeholder="Ex: MBY3809" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="renavamProvisoria">RENAVAM:</label>
+                    <input type="text" id="renavamProvisoria" placeholder="Ex: 13184521360" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="marcaModelo">Marca/Modelo:</label>
+                    <input type="text" id="marcaModelo" placeholder="Ex: FIAT/UNO" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cor">Cor:</label>
+                    <input type="text" id="cor" placeholder="Ex: PRATA" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ano">Ano:</label>
+                    <input type="text" id="ano" placeholder="Ex: 2015" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nomeProprietarioProvisoria">Nome do Proprietário:</label>
+                    <input type="text" id="nomeProprietarioProvisoria" placeholder="Ex: ERICK" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cpfProprietarioProvisoria">CPF do Proprietário:</label>
+                    <input type="text" id="cpfProprietarioProvisoria" placeholder="Ex: 05682203909" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nomeCondutorProvisoria">Nome do Condutor:</label>
+                    <input type="text" id="nomeCondutorProvisoria" placeholder="Ex: THAIS" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cnhCondutorProvisoria">CNH do Condutor:</label>
+                    <input type="text" id="cnhCondutorProvisoria" placeholder="Ex: 05682203909" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="categoriaCNHProvisoria">Categoria da CNH:</label>
+                    <select id="categoriaCNHProvisoria" required>
+                        <option value="">Selecione</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="AE">AE</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="motivo">Motivo da Liberação Provisória:</label>
+                    <textarea id="motivo" rows="3" placeholder="Descreva o motivo da liberação provisória" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="prazo">Prazo para Regularização:</label>
+                    <input type="date" id="prazo" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" onclick="gerarPDF('provisoria')">Gerar Documento</button>
+                    <button type="button" class="btn btn-secondary" onclick="voltarDocumentType()">Voltar</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Visualização do PDF -->
+        <div id="pdfPage" class="hidden">
+            <div id="pdfContainer" class="pdf-container">
+                <!-- Conteúdo do PDF será gerado aqui dinamicamente -->
+            </div>
+            
+            <div class="pdf-actions">
+                <button class="btn" onclick="imprimirPDF()">Imprimir</button>
+                <button class="btn btn-secondary" onclick="voltarFormulario()">Voltar ao Formulário</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let policialAtual = "";
+        let documentType = "";
+        
+        function login(policial) {
+            policialAtual = policial;
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('documentTypePage').classList.remove('hidden');
+        }
+        
+        function voltarLogin() {
+            document.getElementById('documentTypePage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+        }
+        
+        function voltarDocumentType() {
+            document.getElementById('formLiberacaoPage').classList.add('hidden');
+            document.getElementById('formProvisoriaPage').classList.add('hidden');
+            document.getElementById('documentTypePage').classList.remove('hidden');
+        }
+        
+        function voltarFormulario() {
+            document.getElementById('pdfPage').classList.add('hidden');
+            if(documentType === 'liberacao') {
+                document.getElementById('formLiberacaoPage').classList.remove('hidden');
+            } else {
+                document.getElementById('formProvisoriaPage').classList.remove('hidden');
+            }
+        }
+        
+        function selectDocumentType(type) {
+            documentType = type;
+            document.getElementById('documentTypePage').classList.add('hidden');
+            
+            if(type === 'liberacao') {
+                document.getElementById('formLiberacaoPage').classList.remove('hidden');
+            } else {
+                document.getElementById('formProvisoriaPage').classList.remove('hidden');
+            }
+        }
+        
+        function formatarData() {
+            const now = new Date();
+            const dia = now.getDate().toString().padStart(2, '0');
+            const mes = (now.getMonth() + 1).toString().padStart(2, '0');
+            const ano = now.getFullYear();
+            const hora = now.getHours().toString().padStart(2, '0');
+            const minuto = now.getMinutes().toString().padStart(2, '0');
+            
+            return `${dia}/${mes}/${ano} às ${hora}:${minuto}`;
+        }
+        
+        function formatarDataParaExibicao(dataString) {
+            const data = new Date(dataString);
+            const dia = data.getDate().toString().padStart(2, '0');
+            const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+            const ano = data.getFullYear();
+            
+            return `${dia}/${mes}/${ano}`;
+        }
+        
+        function numeroPorExtenso(valor) {
+            const unidades = ["", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
+            const especiais = ["dez", "onze", "doze", "treze", "catorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
+            const dezenas = ["", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
+            const centenas = ["", "cem", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
+            
+            let valorStr = valor.replace(',', '.').replace('R$', '').trim();
+            let partes = valorStr.split('.');
+            let inteiro = parseInt(partes[0]);
+            let decimal = partes.length > 1 ? parseInt(partes[1].padEnd(2, '0').substring(0, 2)) : 0;
+            
+            let resultado = "";
+            
+            // Parte inteira
+            if (inteiro === 0) {
+                resultado = "zero";
+            } else if (inteiro === 100) {
+                resultado = "cem";
+            } else {
+                if (inteiro >= 100) {
+                    resultado += centenas[Math.floor(inteiro / 100)];
+                    inteiro = inteiro % 100;
+                    if (inteiro > 0) resultado += " e ";
+                }
+                
+                if (inteiro >= 10 && inteiro < 20) {
+                    resultado += especiais[inteiro - 10];
+                } else {
+                    if (inteiro >= 20) {
+                        resultado += dezenas[Math.floor(inteiro / 10)];
+                        inteiro = inteiro % 10;
+                        if (inteiro > 0) resultado += " e ";
+                    }
+                    
+                    if (inteiro > 0) {
+                        resultado += unidades[inteiro];
+                    }
+                }
+            }
+            
+            resultado += " reais";
+            
+            // Parte decimal
+            if (decimal > 0) {
+                resultado += " e ";
+                if (decimal < 10) {
+                    resultado += unidades[decimal] + " centavos";
+                } else if (decimal < 20) {
+                    resultado += especiais[decimal - 10] + " centavos";
+                } else {
+                    resultado += dezenas[Math.floor(decimal / 10)];
+                    decimal = decimal % 10;
+                    if (decimal > 0) resultado += " e " + unidades[decimal];
+                    resultado += " centavos";
+                }
+            }
+            
+            return resultado;
+        }
+        
+        function gerarPDF(type) {
+            // Validar formulário
+            let form;
+            if(type === 'liberacao') {
+                form = document.getElementById('vehicleFormLiberacao');
+            } else {
+                form = document.getElementById('vehicleFormProvisoria');
+            }
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            // Coletar dados do formulário
+            let placa, renavam, cidadeEstado, valor, nomeProprietario, cpfProprietario, nomeCondutor, cnhCondutor, categoriaCNH;
+            let marcaModelo, cor, ano, motivo, prazo;
+            
+            if(type === 'liberacao') {
+                placa = document.getElementById('placa').value;
+                renavam = document.getElementById('renavam').value;
+                cidadeEstado = document.getElementById('cidadeEstado').value;
+                valor = document.getElementById('valor').value;
+                nomeProprietario = document.getElementById('nomeProprietario').value;
+                cpfProprietario = document.getElementById('cpfProprietario').value;
+                nomeCondutor = document.getElementById('nomeCondutor').value;
+                cnhCondutor = document.getElementById('cnhCondutor').value;
+                categoriaCNH = document.getElementById('categoriaCNH').value;
+            } else {
+                placa = document.getElementById('placaProvisoria').value;
+                renavam = document.getElementById('renavamProvisoria').value;
+                marcaModelo = document.getElementById('marcaModelo').value;
+                cor = document.getElementById('cor').value;
+                ano = document.getElementById('ano').value;
+                nomeProprietario = document.getElementById('nomeProprietarioProvisoria').value;
+                cpfProprietario = document.getElementById('cpfProprietarioProvisoria').value;
+                nomeCondutor = document.getElementById('nomeCondutorProvisoria').value;
+                cnhCondutor = document.getElementById('cnhCondutorProvisoria').value;
+                categoriaCNH = document.getElementById('categoriaCNHProvisoria').value;
+                motivo = document.getElementById('motivo').value;
+                prazo = document.getElementById('prazo').value;
+            }
+            
+            // Gerar conteúdo do PDF
+            const pdfContainer = document.getElementById('pdfContainer');
+            
+            if(type === 'liberacao') {
+                pdfContainer.innerHTML = `
+                    <div class="pdf-header">
+                        <div class="pdf-header-text">
+                            <div>POLÍCIA MILITAR DE SANTA CATARINA</div>
+                            <div>5º CMD DE POLÍCIA MILITAR</div>
+                            <div>8º BPM/4ªCIA - ITAPOÁ</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pdf-title">TERMO DE ENTREGA E LIBERAÇÃO</div>
+                    
+                    <div class="pdf-content">
+                        <div class="pdf-section">
+                            <p>Conforme Auto de Retirada, do 4º Pelotão de Polícia Militar de Itapoá, faço a liberação do veículo: Placas ${placa}, RENAVAM ${renavam}, ${cidadeEstado}</p>
+                            <p>Conforme comprovante de pagamento (cópia anexa), referente ao serviço de guincho e estadia no Pátio de veículos da Rede SOS Norte Itapoá, no valor equivalente a R$${valor} (${numeroPorExtenso(valor)}).</p>
+                        </div>
+                        
+                        <div class="pdf-section">
+                            <p><strong>PROPRIETÁRIO:</strong> ${nomeProprietario}, CPF ${cpfProprietario}</p>
+                            <p><strong>CONDUTOR:</strong> ${nomeCondutor}, CNH N. ${cnhCondutor}, CATEGORIA ${categoriaCNH}</p>
+                        </div>
+                        
+                        <div class="pdf-section">
+                            <p><strong>DECLARO</strong> que recebi o referido veículo de minha propriedade, conforme preceitua os artigos 262 parágrafo 2º e 271 do Código de Trânsito Brasileiro, que se encontra apreendido no pátio de veículos de Itapoá/SC, por ter satisfeito as exigências legais.</p>
+                        </div>
+                        
+                        <div class="pdf-section">
+                            <p>Quartel em itapoá, ${formatarData()}</p>
+                        </div>
+                        
+                        <div class="signature-names">
+                            <div class="name-box">
+                                <p>${policialAtual}</p>
+                            </div>
+                            <div class="name-box">
+                                <p>${nomeProprietario}</p>
+                                <p>${nomeCondutor}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pdf-footer">
+                            <p>4ª CIA DO 8º BATALHÃO DE POLÍCIA MILITAR – Itapoá/SC</p>
+                            <p>Rua Ana Maria Rodrigues de Freitas, 1193 - Bairro Itapema do Norte - CEP 89249-000 - Fone: (47) 3431-8800</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                pdfContainer.innerHTML = `
+                    <div class="pdf-header">
+                        <div class="pdf-header-text">
+                            <div>POLÍCIA MILITAR DE SANTA CATARINA</div>
+                            <div>5º CMD DE POLÍCIA MILITAR</div>
+                            <div>8º BPM/4ªCIA - ITAPOÁ</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pdf-title">TERMO DE ENTREGA E LIBERAÇÃO PROVISÓRIA</div>
+                    
+                    <div class="pdf-content">
+                        <div class="pdf-section">
+                            <p>Conforme determinação legal, faço a liberação provisória do veículo com as seguintes características:</p>
+                            <p><strong>Placas:</strong> ${placa}</p>
+                            <p><strong>RENAVAM:</strong> ${renavam}</p>
+                            <p><strong>Marca/Modelo:</strong> ${marcaModelo}</p>
+                            <p><strong>Cor:</strong> ${cor}</p>
+                            <p><strong>Ano:</strong> ${ano}</p>
+                        </div>
+                        
+                        <div class="pdf-section">
+                            <p><strong>PROPRIETÁRIO:</strong> ${nomeProprietario}, CPF ${cpfProprietario}</p>
+                            <p><strong>CONDUTOR:</strong> ${nomeCondutor}, CNH N. ${cnhCondutor}, CATEGORIA ${categoriaCNH}</p>
+                        </div>
+                        
+                        <div class="pdf-section">
+                            <p><strong>MOTIVO DA LIBERAÇÃO PROVISÓRIA:</strong> ${motivo}</p>
+                            <p><strong>PRAZO PARA REGULARIZAÇÃO:</strong> ${formatarDataParaExibicao(prazo)}</p>
+                        </div>
+                        
+                        <div class="pdf-notification">
+                            <p><strong>NOTIFICAÇÃO AO INFRATOR</strong></p>
+                            <p>O INFRATOR TEVE SEU VEÍCULO LIBERADO, DEVENDO COMPARECER NO SETOR DE TRÂNSITO DA 4ª CIA DE POLÍCIA MILITAR – ITAPOÁ/SC SITUADA NA AV. ANA MARIA RODRIGUES DE FREITAS, 1193, ATÉ O DIA ${formatarDataParaExibicao(prazo)} PARA APRESENTAR SEU VEÍCULO DEVIDAMENTE REGULARIZADO.</p>
+                            <p>À PARTIR DA DATA DA LIBERAÇÃO DEVERÁ SER PROVIDENCIADO O CONSERTO/REPARO DO VEÍCULO, FICANDO IMPEDIDO NESTE PERÍODO DE TRANSITAR ALÉM DOS LIMITES NECESSÁRIOS À RESOLUÇÃO DO(S) PROBLEMA(S).</p>
+                            <p>FICA O INFRATOR CIENTE QUE EM CASO DE NÃO APRESENTAÇÃO DO VEÍCULO DENTRO DO PRAZO ESTIPULADO, ESTARÁ SUJEITO ÀS PENALIDADES PREVISTAS NO ART. 195 DO C.T.B, BEM COMO SERÁ INSERIDO GRAVAME DE RESTRIÇÃO ADMINISTRATIVA AO VEÍCULO EM CONFORMIDADE COM O ART. 270 § 6º DA MESMA LEI.</p>
+                        </div>
+                        
+                        <div class="pdf-section">
+                            <p><strong>DECLARO</strong> que recebi o referido veículo de minha propriedade, em caráter provisório, comprometendo-me a regularizar a situação no prazo estabelecido, sob pena de aplicação das sanções legais cabíveis.</p>
+                        </div>
+                        
+                        <div class="pdf-section">
+                            <p>Quartel em itapoá, ${formatarData()}</p>
+                        </div>
+                        
+                        <div class="signature-names">
+                            <div class="name-box">
+                                <p>${policialAtual}</p>
+                            </div>
+                            <div class="name-box">
+                                <p>${nomeProprietario}</p>
+                                <p>${nomeCondutor}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pdf-footer">
+                            <p>4ª CIA DO 8º BATALHÃO DE POLÍCIA MILITAR – Itapoá/SC</p>
+                            <p>Rua Ana Maria Rodrigues de Freitas, 1193 - Bairro Itapema do Norte - CEP 89249-000 - Fone: (47) 3431-8800</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Mostrar página do PDF
+            if(type === 'liberacao') {
+                document.getElementById('formLiberacaoPage').classList.add('hidden');
+            } else {
+                document.getElementById('formProvisoriaPage').classList.add('hidden');
+            }
+            document.getElementById('pdfPage').classList.remove('hidden');
+        }
+        
+        function imprimirPDF() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
