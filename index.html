@@ -24,7 +24,7 @@
             margin: 0 auto;
         }
         
-        .login-container, .form-container, .document-type-container {
+        .login-container, .form-container, .document-type-container, .auth-container {
             background-color: white;
             padding: 30px;
             border-radius: 8px;
@@ -32,7 +32,7 @@
             margin-bottom: 20px;
         }
         
-        .login-title, .document-type-title {
+        .login-title, .document-type-title, .auth-title {
             text-align: center;
             margin-bottom: 30px;
             color: #1a3a8b;
@@ -84,6 +84,12 @@
             border-radius: 4px;
         }
         
+        .auth-input {
+            text-align: center;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+        
         .form-actions {
             display: flex;
             justify-content: space-between;
@@ -113,8 +119,23 @@
             background-color: #545b62;
         }
         
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
         .hidden {
             display: none;
+        }
+        
+        .auth-error {
+            color: #dc3545;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
         }
         
         /* Estilo para o PDF */
@@ -248,10 +269,25 @@
         <!-- Página de Login -->
         <div id="loginPage" class="login-container">
             <h2 class="login-title">Sistema de Liberação Veicular - PMSC</h2>
-            <p style="text-align: center; margin-bottom: 20px;">Selecione seu usuário para acessar o sistema:</p>
+            <p style="text-align: center; margin-bottom: 20px;">Selecione o policial para acessar o sistema:</p>
             <div class="login-buttons">
-                <button class="login-btn" onclick="login('CB PM ANDRADE 934177-3')">CB PM ANDRADE 934177-3</button>
-                <button class="login-btn" onclick="login('SD PM BIANCA 620218-7')">SD PM BIANCA 620218-7</button>
+                <button class="login-btn" onclick="selecionarPolicial('CB PM ANDRADE', '934177')">CB PM ANDRADE</button>
+                <button class="login-btn" onclick="selecionarPolicial('SD PM BIANCA', '620218')">SD PM BIANCA</button>
+            </div>
+        </div>
+        
+        <!-- Página de Autenticação -->
+        <div id="authPage" class="auth-container hidden">
+            <h2 class="auth-title" id="authTitle">Autenticação</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Digite sua matrícula para acessar o sistema:</p>
+            <div class="form-group">
+                <label for="matricula">Matrícula:</label>
+                <input type="password" id="matricula" class="auth-input" placeholder="Digite os 6 dígitos da matrícula" maxlength="6" required>
+            </div>
+            <div id="authError" class="auth-error hidden">Matrícula incorreta. Tente novamente.</div>
+            <div class="form-actions">
+                <button type="button" class="btn" onclick="verificarMatricula()">Acessar Sistema</button>
+                <button type="button" class="btn btn-secondary" onclick="voltarLogin()">Voltar</button>
             </div>
         </div>
         
@@ -264,7 +300,7 @@
                 <button class="document-type-btn" onclick="selectDocumentType('provisoria')">TERMO DE ENTREGA E LIBERAÇÃO PROVISÓRIA</button>
             </div>
             <div class="form-actions">
-                <button type="button" class="btn btn-secondary" onclick="voltarLogin()">Voltar</button>
+                <button type="button" class="btn btn-danger" onclick="logout()">Sair do Sistema</button>
             </div>
         </div>
         
@@ -424,6 +460,7 @@
             <div class="pdf-actions">
                 <button class="btn" onclick="imprimirPDF()">Imprimir</button>
                 <button class="btn btn-secondary" onclick="voltarFormulario()">Voltar ao Formulário</button>
+                <button class="btn btn-danger" onclick="logout()">Sair do Sistema</button>
             </div>
         </div>
     </div>
@@ -431,16 +468,60 @@
     <script>
         let policialAtual = "";
         let documentType = "";
+        let matriculaEsperada = "";
         
-        function login(policial) {
-            policialAtual = policial;
+        // Dados de autenticação
+        const credenciais = {
+            'CB PM ANDRADE': '934177',
+            'SD PM BIANCA': '620218'
+        };
+        
+        // Função para selecionar policial e ir para tela de autenticação
+        function selecionarPolicial(nomePolicial, matricula) {
+            policialAtual = nomePolicial;
+            matriculaEsperada = matricula;
+            
             document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('documentTypePage').classList.remove('hidden');
+            document.getElementById('authPage').classList.remove('hidden');
+            document.getElementById('authTitle').textContent = `Autenticação - ${nomePolicial}`;
+            document.getElementById('matricula').value = '';
+            document.getElementById('authError').classList.add('hidden');
+            document.getElementById('matricula').focus();
         }
         
+        // Função para verificar a matrícula
+        function verificarMatricula() {
+            const matriculaDigitada = document.getElementById('matricula').value;
+            
+            if (matriculaDigitada === matriculaEsperada) {
+                // Login bem-sucedido
+                document.getElementById('authPage').classList.add('hidden');
+                document.getElementById('documentTypePage').classList.remove('hidden');
+            } else {
+                // Login falhou
+                document.getElementById('authError').classList.remove('hidden');
+                document.getElementById('matricula').value = '';
+                document.getElementById('matricula').focus();
+            }
+        }
+        
+        // Função para voltar à tela de login
         function voltarLogin() {
-            document.getElementById('documentTypePage').classList.add('hidden');
+            document.getElementById('authPage').classList.add('hidden');
             document.getElementById('loginPage').classList.remove('hidden');
+            policialAtual = "";
+            matriculaEsperada = "";
+        }
+        
+        // Função para logout
+        function logout() {
+            document.getElementById('documentTypePage').classList.add('hidden');
+            document.getElementById('formLiberacaoPage').classList.add('hidden');
+            document.getElementById('formProvisoriaPage').classList.add('hidden');
+            document.getElementById('pdfPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            policialAtual = "";
+            matriculaEsperada = "";
         }
         
         function voltarDocumentType() {
@@ -628,7 +709,7 @@
                         
                         <div class="signature-names">
                             <div class="name-box">
-                                <p>${policialAtual}</p>
+                                <p>${policialAtual} ${matriculaEsperada}-${policialAtual === 'CB PM ANDRADE' ? '3' : '7'}</p>
                             </div>
                             <div class="name-box">
                                 <p>${nomeProprietario}</p>
@@ -691,7 +772,7 @@
                         
                         <div class="signature-names">
                             <div class="name-box">
-                                <p>${policialAtual}</p>
+                                <p>${policialAtual} ${matriculaEsperada}-${policialAtual === 'CB PM ANDRADE' ? '3' : '7'}</p>
                             </div>
                             <div class="name-box">
                                 <p>${nomeProprietario}</p>
@@ -719,6 +800,13 @@
         function imprimirPDF() {
             window.print();
         }
+        
+        // Permitir pressionar Enter para submeter a matrícula
+        document.getElementById('matricula').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verificarMatricula();
+            }
+        });
     </script>
 </body>
 </html>
