@@ -138,15 +138,13 @@
             font-weight: bold;
         }
         
-        /* Estilo para o PDF */
+        /* Estilo para visualização do PDF na tela */
         .pdf-container {
             background-color: white;
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             max-width: 800px;
             margin: 0 auto;
-            position: relative;
-            min-height: 1122px; /* Altura aproximada de A4 */
         }
         
         .pdf-header {
@@ -170,7 +168,6 @@
         .pdf-content {
             line-height: 1.5;
             font-size: 14px;
-            margin-bottom: 100px; /* Espaço para o rodapé */
         }
         
         .pdf-section {
@@ -214,15 +211,11 @@
         }
         
         .pdf-footer {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
             text-align: center;
+            margin-top: 30px;
             font-size: 12px;
             border-top: 1px solid #333;
             padding-top: 10px;
-            margin: 0 20px;
         }
         
         .pdf-actions {
@@ -233,30 +226,69 @@
             flex-wrap: wrap;
         }
         
+        /* Estilo específico para impressão */
         @media print {
             body * {
                 visibility: hidden;
+                margin: 0;
+                padding: 0;
             }
-            .pdf-container, .pdf-container * {
+            
+            #pdfContainer, #pdfContainer * {
                 visibility: visible;
             }
-            .pdf-container {
+            
+            #pdfContainer {
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 100%;
-                box-shadow: none;
                 padding: 15mm;
-                min-height: 0;
+                box-shadow: none;
+                background: white;
+                font-family: "Times New Roman", Times, serif;
             }
+            
             .pdf-actions {
                 display: none;
             }
+            
+            .pdf-header {
+                margin-bottom: 15mm;
+                border-bottom: 1px solid #000;
+                padding-bottom: 5mm;
+            }
+            
+            .pdf-title {
+                font-size: 16pt;
+                margin: 10mm 0;
+            }
+            
+            .pdf-content {
+                font-size: 12pt;
+                line-height: 1.4;
+            }
+            
+            .pdf-section {
+                margin-bottom: 5mm;
+            }
+            
+            .pdf-notification {
+                font-size: 10pt;
+                margin: 5mm 0;
+                padding: 3mm;
+            }
+            
             .pdf-footer {
                 position: fixed;
                 bottom: 15mm;
                 left: 15mm;
                 right: 15mm;
+                font-size: 10pt;
+            }
+            
+            .signature-names {
+                margin-top: 20mm;
             }
         }
         
@@ -769,11 +801,11 @@
                                 <p>${nomeCondutor}</p>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="pdf-footer">
-                        <p>4ª CIA DO 8º BATALHÃO DE POLÍCIA MILITAR – Itapoá/SC</p>
-                        <p>Rua Ana Maria Rodrigues de Freitas, 1193 - Bairro Itapema do Norte - CEP 89249-000 - Fone: (47) 3431-8800</p>
+                        
+                        <div class="pdf-footer">
+                            <p>4ª CIA DO 8º BATALHÃO DE POLÍCIA MILITAR – Itapoá/SC</p>
+                            <p>Rua Ana Maria Rodrigues de Freitas, 1193 - Bairro Itapema do Norte - CEP 89249-000 - Fone: (47) 3431-8800</p>
+                        </div>
                     </div>
                 `;
             } else {
@@ -833,11 +865,11 @@
                                 <p>${nomeCondutor}</p>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="pdf-footer">
-                        <p>4ª CIA DO 8º BATALHÃO DE POLÍCIA MILITAR – Itapoá/SC</p>
-                        <p>Rua Ana Maria Rodrigues de Freitas, 1193 - Bairro Itapema do Norte - CEP 89249-000 - Fone: (47) 3431-8800</p>
+                        
+                        <div class="pdf-footer">
+                            <p>4ª CIA DO 8º BATALHÃO DE POLÍCIA MILITAR – Itapoá/SC</p>
+                            <p>Rua Ana Maria Rodrigues de Freitas, 1193 - Bairro Itapema do Norte - CEP 89249-000 - Fone: (47) 3431-8800</p>
+                        </div>
                     </div>
                 `;
             }
@@ -852,63 +884,7 @@
         }
         
         function imprimirPDF() {
-            // Definir nome do arquivo baseado no tipo de documento
-            const nomeArquivo = documentType === 'liberacao' ? 'liberacao' : 'liberacao-provisoria';
-            
-            // Criar um iframe para impressão com nome personalizado
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            
-            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-            iframeDoc.write(`
-                <html>
-                    <head>
-                        <title>${documentType === 'liberacao' ? 'TERMO DE ENTREGA E LIBERAÇÃO' : 'TERMO DE ENTREGA E LIBERAÇÃO PROVISÓRIA'}</title>
-                        <style>
-                            body { 
-                                font-family: Arial, sans-serif; 
-                                margin: 0;
-                                padding: 15mm;
-                            }
-                            .pdf-container {
-                                max-width: 100%;
-                            }
-                            .pdf-footer {
-                                position: fixed;
-                                bottom: 15mm;
-                                left: 15mm;
-                                right: 15mm;
-                                text-align: center;
-                                font-size: 12px;
-                                border-top: 1px solid #333;
-                                padding-top: 10px;
-                            }
-                            @media print {
-                                .pdf-footer {
-                                    position: fixed;
-                                    bottom: 15mm;
-                                }
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        ${document.getElementById('pdfContainer').innerHTML}
-                    </body>
-                </html>
-            `);
-            iframeDoc.close();
-            
-            // Aguardar o carregamento do iframe e então imprimir
-            iframe.onload = function() {
-                iframe.contentWindow.focus();
-                iframe.contentWindow.print();
-                
-                // Remover o iframe após a impressão
-                setTimeout(() => {
-                    document.body.removeChild(iframe);
-                }, 1000);
-            };
+            window.print();
         }
         
         // Permitir pressionar Enter para submeter a matrícula
