@@ -24,116 +24,759 @@
             margin: 0 auto;
         }
         
-        /* [Mantido todo o CSS anterior para login e formulários] */
+        .login-container, .form-container, .document-type-container, .auth-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
         
-        /* ESTILOS ESPECÍFICOS PARA O PDF CORRIGIDOS */
+        .login-title, .document-type-title, .auth-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1a3a8b;
+        }
+        
+        .login-buttons, .document-type-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .login-btn, .document-type-btn {
+            background-color: #1a3a8b;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 280px;
+        }
+        
+        .login-btn:hover, .document-type-btn:hover {
+            background-color: #0f276b;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1a3a8b;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .auth-input {
+            text-align: center;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .btn {
+            background-color: #1a3a8b;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #0f276b;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .auth-error {
+            color: #dc3545;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        /* Estilo para visualização do PDF na tela - A4 otimizado */
         .pdf-container {
             background-color: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            width: 210mm; /* Largura exata A4 */
-            min-height: 297mm; /* Altura exata A4 */
+            width: 210mm; /* Largura A4 */
+            min-height: 297mm; /* Altura A4 */
             margin: 0 auto;
-            padding: 15mm; /* Margens internas adequadas */
-            font-size: 0.9em; /* Tamanho base menor */
-            line-height: 1.2;
+            padding: 15mm 20mm; /* Margens internas otimizadas */
+            font-size: 13px; /* Tamanho legível */
+            line-height: 1.4;
         }
         
         .pdf-header {
-            margin-bottom: 8mm;
+            margin-bottom: 10px;
             border-bottom: 1px solid #333;
-            padding-bottom: 3mm;
+            padding-bottom: 5px;
         }
         
         .pdf-header-text {
             text-align: left;
-            font-size: 0.85em;
+            font-size: 12px;
         }
         
         .pdf-title {
-            font-size: 1.1em;
+            font-size: 16px;
             font-weight: bold;
-            margin: 10mm 0;
+            margin: 15px 0;
             text-align: center;
             text-transform: uppercase;
         }
         
         .pdf-content {
-            line-height: 1.3;
-            font-size: 0.85em;
+            line-height: 1.4;
+            font-size: 13px;
         }
         
         .pdf-section {
-            margin-bottom: 4mm;
+            margin-bottom: 8px;
         }
         
         .pdf-notification {
-            margin: 8mm 0;
-            padding: 4mm;
+            margin: 12px 0;
+            padding: 10px;
             border: 1px solid #333;
-            border-radius: 2px;
+            border-radius: 4px;
             background-color: #f9f9f9;
-            font-size: 0.8em;
-            line-height: 1.15;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+        
+        .pdf-signature {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .signature-box {
+            text-align: center;
+            width: 48%;
+            padding-top: 5px;
         }
         
         .signature-names {
             display: flex;
             justify-content: space-between;
-            margin-top: 25mm;
+            margin-top: 30px;
         }
         
         .name-box {
             text-align: center;
-            width: 45%;
-            font-size: 0.85em;
+            width: 48%;
+            padding-top: 5px;
+            font-size: 12px;
         }
         
         .pdf-footer {
             text-align: center;
-            margin-top: 15mm;
-            font-size: 0.8em;
+            margin-top: 15px;
+            font-size: 11px;
             border-top: 1px solid #333;
-            padding-top: 3mm;
+            padding-top: 5px;
         }
         
-        /* ESTILOS DE IMPRESSÃO CORRIGIDOS */
+        .pdf-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        /* Estilo específico para impressão A4 */
         @media print {
             body * {
                 visibility: hidden;
+                margin: 0;
+                padding: 0;
             }
             
-            .pdf-container, .pdf-container * {
+            #pdfContainer, #pdfContainer * {
                 visibility: visible;
             }
             
-            .pdf-container {
+            #pdfContainer {
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 100%;
                 height: 100%;
+                padding: 15mm 20mm;
                 box-shadow: none;
-                padding: 15mm;
-                margin: 0;
+                background: white;
+                font-family: "Times New Roman", Times, serif;
+                font-size: 13px;
+                line-height: 1.4;
             }
             
             .pdf-actions {
                 display: none;
             }
+            
+            .pdf-header {
+                margin-bottom: 10mm;
+                border-bottom: 1px solid #000;
+                padding-bottom: 3mm;
+            }
+            
+            .pdf-title {
+                font-size: 16px;
+                margin: 10mm 0;
+            }
+            
+            .pdf-content {
+                font-size: 13px;
+                line-height: 1.4;
+            }
+            
+            .pdf-section {
+                margin-bottom: 5mm;
+            }
+            
+            .pdf-notification {
+                font-size: 11px;
+                margin: 8mm 0;
+                padding: 5mm;
+            }
+            
+            .pdf-footer {
+                position: fixed;
+                bottom: 15mm;
+                left: 15mm;
+                right: 15mm;
+                font-size: 11px;
+            }
+            
+            .signature-names {
+                margin-top: 20mm;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .login-buttons, .document-type-buttons {
+                flex-direction: column;
+            }
+            
+            .login-btn, .document-type-btn {
+                width: 100%;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .pdf-container {
+                padding: 10px;
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- [Mantido todo o HTML anterior] -->
-    
-    <script>
-        // [Mantido todo o JavaScript anterior]
+    <div class="container">
+        <!-- Página de Login -->
+        <div id="loginPage" class="login-container">
+            <h2 class="login-title">Sistema de Liberação Veicular - PMSC</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Selecione o policial para acessar o sistema:</p>
+            <div class="login-buttons">
+                <button class="login-btn" onclick="selecionarPolicial('CB PM ANDRADE', '934177')">CB PM ANDRADE</button>
+                <button class="login-btn" onclick="selecionarPolicial('SD PM BIANCA', '620218')">SD PM BIANCA</button>
+            </div>
+        </div>
         
-        // APENAS A FUNÇÃO gerarPDF FOI MODIFICADA PARA USAR O NOVO LAYOUT
-        function gerarPDF(type) {
-            // [Mantida toda a lógica anterior de validação e coleta de dados]
+        <!-- Página de Autenticação -->
+        <div id="authPage" class="auth-container hidden">
+            <h2 class="auth-title" id="authTitle">Autenticação</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Digite sua matrícula para acessar o sistema:</p>
+            <div class="form-group">
+                <label for="matricula">Matrícula:</label>
+                <input type="password" id="matricula" class="auth-input" placeholder="Digite os 6 dígitos da matrícula" maxlength="6" required>
+            </div>
+            <div id="authError" class="auth-error hidden">Matrícula incorreta. Tente novamente.</div>
+            <div class="form-actions">
+                <button type="button" class="btn" onclick="verificarMatricula()">Acessar Sistema</button>
+                <button type="button" class="btn btn-secondary" onclick="voltarLogin()">Voltar</button>
+            </div>
+        </div>
+        
+        <!-- Seleção do Tipo de Documento -->
+        <div id="documentTypePage" class="document-type-container hidden">
+            <h2 class="document-type-title">Selecione o Tipo de Documento</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Escolha o modelo de documento que deseja gerar:</p>
+            <div class="document-type-buttons">
+                <button class="document-type-btn" onclick="selectDocumentType('liberacao')">TERMO DE ENTREGA E LIBERAÇÃO</button>
+                <button class="document-type-btn" onclick="selectDocumentType('provisoria')">TERMO DE ENTREGA E LIBERAÇÃO PROVISÓRIA</button>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-danger" onclick="logout()">Sair do Sistema</button>
+            </div>
+        </div>
+        
+        <!-- Formulário de Liberação Normal -->
+        <div id="formLiberacaoPage" class="form-container hidden">
+            <h2 class="form-title">TERMO DE ENTREGA E LIBERAÇÃO</h2>
             
-            // NOVO LAYOUT DO PDF - MAIS COMPACTO
+            <form id="vehicleFormLiberacao">
+                <div class="form-group">
+                    <label for="placa">Placa do Veículo:</label>
+                    <input type="text" id="placa" placeholder="AAA-0000" maxlength="8" oninput="formatarPlaca(this)" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="renavam">RENAVAM:</label>
+                    <input type="text" id="renavam" placeholder="00000000000" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cidadeEstado">Cidade/Estado:</label>
+                    <input type="text" id="cidadeEstado" placeholder="ITAPOA/SC" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="valor">Valor do Serviço (R$):</label>
+                    <input type="text" id="valor" placeholder="100,00" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nomeProprietario">Nome do Proprietário:</label>
+                    <input type="text" id="nomeProprietario" placeholder="Nome completo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cpfProprietario">CPF do Proprietário:</label>
+                    <input type="text" id="cpfProprietario" placeholder="000.000.000-00" maxlength="14" oninput="formatarCPF(this)" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nomeCondutor">Nome do Condutor:</label>
+                    <input type="text" id="nomeCondutor" placeholder="Nome completo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cnhCondutor">CNH do Condutor:</label>
+                    <input type="text" id="cnhCondutor" placeholder="00000000000" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="categoriaCNH">Categoria da CNH:</label>
+                    <select id="categoriaCNH" required>
+                        <option value="">Selecione</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="AE">AE</option>
+                        <option value="AC">AC</option>
+                        <option value="AD">AD</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" onclick="gerarPDF('liberacao')">Gerar Documento</button>
+                    <button type="button" class="btn btn-secondary" onclick="voltarDocumentType()">Voltar</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Formulário de Liberação Provisória -->
+        <div id="formProvisoriaPage" class="form-container hidden">
+            <h2 class="form-title">TERMO DE ENTREGA E LIBERAÇÃO PROVISÓRIA</h2>
+            
+            <form id="vehicleFormProvisoria">
+                <div class="form-group">
+                    <label for="placaProvisoria">Placa do Veículo:</label>
+                    <input type="text" id="placaProvisoria" placeholder="AAA-0000" maxlength="8" oninput="formatarPlaca(this)" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="renavamProvisoria">RENAVAM:</label>
+                    <input type="text" id="renavamProvisoria" placeholder="00000000000" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="marcaModelo">Marca/Modelo:</label>
+                    <input type="text" id="marcaModelo" placeholder="FIAT/UNO" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cor">Cor:</label>
+                    <input type="text" id="cor" placeholder="PRATA" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ano">Ano:</label>
+                    <input type="text" id="ano" placeholder="2015" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="valorProvisoria">Valor do Serviço (R$):</label>
+                    <input type="text" id="valorProvisoria" placeholder="100,00" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nomeProprietarioProvisoria">Nome do Proprietário:</label>
+                    <input type="text" id="nomeProprietarioProvisoria" placeholder="Nome completo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cpfProprietarioProvisoria">CPF do Proprietário:</label>
+                    <input type="text" id="cpfProprietarioProvisoria" placeholder="000.000.000-00" maxlength="14" oninput="formatarCPF(this)" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nomeCondutorProvisoria">Nome do Condutor:</label>
+                    <input type="text" id="nomeCondutorProvisoria" placeholder="Nome completo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cnhCondutorProvisoria">CNH do Condutor:</label>
+                    <input type="text" id="cnhCondutorProvisoria" placeholder="00000000000" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="categoriaCNHProvisoria">Categoria da CNH:</label>
+                    <select id="categoriaCNHProvisoria" required>
+                        <option value="">Selecione</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="AE">AE</option>
+                        <option value="AC">AC</option>
+                        <option value="AD">AD</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="motivo">Motivo da Liberação Provisória:</label>
+                    <textarea id="motivo" rows="3" placeholder="Descreva o motivo da liberação provisória" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="prazo">Prazo para Regularização:</label>
+                    <input type="date" id="prazo" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" onclick="gerarPDF('provisoria')">Gerar Documento</button>
+                    <button type="button" class="btn btn-secondary" onclick="voltarDocumentType()">Voltar</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Visualização do PDF -->
+        <div id="pdfPage" class="hidden">
+            <div id="pdfContainer" class="pdf-container">
+                <!-- Conteúdo do PDF será gerado aqui dinamicamente -->
+            </div>
+            
+            <div class="pdf-actions">
+                <button class="btn" onclick="imprimirPDF()">Imprimir</button>
+                <button class="btn btn-secondary" onclick="voltarFormulario()">Voltar ao Formulário</button>
+                <button class="btn btn-danger" onclick="logout()">Sair do Sistema</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let policialAtual = "";
+        let documentType = "";
+        let matriculaEsperada = "";
+        
+        // Dados de autenticação
+        const credenciais = {
+            'CB PM ANDRADE': '934177',
+            'SD PM BIANCA': '620218'
+        };
+        
+        // Função para selecionar policial e ir para tela de autenticação
+        function selecionarPolicial(nomePolicial, matricula) {
+            policialAtual = nomePolicial;
+            matriculaEsperada = matricula;
+            
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('authPage').classList.remove('hidden');
+            document.getElementById('authTitle').textContent = `Autenticação - ${nomePolicial}`;
+            document.getElementById('matricula').value = '';
+            document.getElementById('authError').classList.add('hidden');
+            document.getElementById('matricula').focus();
+        }
+        
+        // Função para verificar a matrícula
+        function verificarMatricula() {
+            const matriculaDigitada = document.getElementById('matricula').value;
+            
+            if (matriculaDigitada === matriculaEsperada) {
+                // Login bem-sucedido
+                document.getElementById('authPage').classList.add('hidden');
+                document.getElementById('documentTypePage').classList.remove('hidden');
+            } else {
+                // Login falhou
+                document.getElementById('authError').classList.remove('hidden');
+                document.getElementById('matricula').value = '';
+                document.getElementById('matricula').focus();
+            }
+        }
+        
+        // Função para voltar à tela de login
+        function voltarLogin() {
+            document.getElementById('authPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            policialAtual = "";
+            matriculaEsperada = "";
+        }
+        
+        // Função para logout
+        function logout() {
+            document.getElementById('documentTypePage').classList.add('hidden');
+            document.getElementById('formLiberacaoPage').classList.add('hidden');
+            document.getElementById('formProvisoriaPage').classList.add('hidden');
+            document.getElementById('pdfPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            policialAtual = "";
+            matriculaEsperada = "";
+        }
+        
+        function voltarDocumentType() {
+            document.getElementById('formLiberacaoPage').classList.add('hidden');
+            document.getElementById('formProvisoriaPage').classList.add('hidden');
+            document.getElementById('documentTypePage').classList.remove('hidden');
+        }
+        
+        function voltarFormulario() {
+            document.getElementById('pdfPage').classList.add('hidden');
+            if(documentType === 'liberacao') {
+                document.getElementById('formLiberacaoPage').classList.remove('hidden');
+            } else {
+                document.getElementById('formProvisoriaPage').classList.remove('hidden');
+            }
+        }
+        
+        function selectDocumentType(type) {
+            documentType = type;
+            document.getElementById('documentTypePage').classList.add('hidden');
+            
+            if(type === 'liberacao') {
+                document.getElementById('formLiberacaoPage').classList.remove('hidden');
+            } else {
+                document.getElementById('formProvisoriaPage').classList.remove('hidden');
+            }
+        }
+        
+        // Função para formatar CPF
+        function formatarCPF(campo) {
+            let cpf = campo.value.replace(/\D/g, '');
+            
+            if (cpf.length > 3) {
+                cpf = cpf.substring(0, 3) + '.' + cpf.substring(3);
+            }
+            if (cpf.length > 7) {
+                cpf = cpf.substring(0, 7) + '.' + cpf.substring(7);
+            }
+            if (cpf.length > 11) {
+                cpf = cpf.substring(0, 11) + '-' + cpf.substring(11, 13);
+            }
+            
+            campo.value = cpf;
+        }
+        
+        // Função para formatar placa
+        function formatarPlaca(campo) {
+            let placa = campo.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            
+            if (placa.length > 3) {
+                placa = placa.substring(0, 3) + '-' + placa.substring(3, 7);
+            }
+            
+            campo.value = placa;
+        }
+        
+        function formatarData() {
+            const now = new Date();
+            const dia = now.getDate().toString().padStart(2, '0');
+            const mes = (now.getMonth() + 1).toString().padStart(2, '0');
+            const ano = now.getFullYear();
+            const hora = now.getHours().toString().padStart(2, '0');
+            const minuto = now.getMinutes().toString().padStart(2, '0');
+            
+            return `${dia}/${mes}/${ano} às ${hora}:${minuto}`;
+        }
+        
+        function formatarDataParaExibicao(dataString) {
+            const data = new Date(dataString);
+            const dia = data.getDate().toString().padStart(2, '0');
+            const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+            const ano = data.getFullYear();
+            
+            return `${dia}/${mes}/${ano}`;
+        }
+        
+        function numeroPorExtenso(valor) {
+            // Remover caracteres não numéricos e converter para número
+            const valorNumerico = parseFloat(valor.replace(/[^\d,]/g, '').replace(',', '.'));
+            
+            // Se for zero ou não for um número válido
+            if (isNaN(valorNumerico) || valorNumerico === 0) {
+                return "zero reais";
+            }
+            
+            const unidades = ["", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
+            const especiais = ["dez", "onze", "doze", "treze", "catorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
+            const dezenas = ["", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
+            const centenas = ["", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
+            
+            let valorStr = valorNumerico.toFixed(2);
+            let partes = valorStr.split('.');
+            let inteiro = parseInt(partes[0]);
+            let decimal = parseInt(partes[1]);
+            
+            let resultado = "";
+            
+            // Parte inteira
+            if (inteiro === 100) {
+                resultado = "cem";
+            } else if (inteiro > 100) {
+                resultado += centenas[Math.floor(inteiro / 100)];
+                inteiro = inteiro % 100;
+                if (inteiro > 0) resultado += " e ";
+            }
+            
+            if (inteiro >= 10 && inteiro < 20) {
+                resultado += especiais[inteiro - 10];
+            } else {
+                if (inteiro >= 20) {
+                    resultado += dezenas[Math.floor(inteiro / 10)];
+                    inteiro = inteiro % 10;
+                    if (inteiro > 0) resultado += " e ";
+                }
+                
+                if (inteiro > 0) {
+                    resultado += unidades[inteiro];
+                }
+            }
+            
+            resultado += " reais";
+            
+            // Parte decimal
+            if (decimal > 0) {
+                resultado += " e ";
+                if (decimal < 10) {
+                    resultado += unidades[decimal] + " centavos";
+                } else if (decimal < 20) {
+                    resultado += especiais[decimal - 10] + " centavos";
+                } else {
+                    resultado += dezenas[Math.floor(decimal / 10)];
+                    decimal = decimal % 10;
+                    if (decimal > 0) resultado += " e " + unidades[decimal];
+                    resultado += " centavos";
+                }
+            }
+            
+            return resultado;
+        }
+        
+        function gerarPDF(type) {
+            // Validar formulário
+            let form;
+            if(type === 'liberacao') {
+                form = document.getElementById('vehicleFormLiberacao');
+            } else {
+                form = document.getElementById('vehicleFormProvisoria');
+            }
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            // Coletar dados do formulário
+            let placa, renavam, cidadeEstado, valor, nomeProprietario, cpfProprietario, nomeCondutor, cnhCondutor, categoriaCNH;
+            let marcaModelo, cor, ano, motivo, prazo, valorProvisoria;
+            
+            if(type === 'liberacao') {
+                placa = document.getElementById('placa').value;
+                renavam = document.getElementById('renavam').value;
+                cidadeEstado = document.getElementById('cidadeEstado').value;
+                valor = document.getElementById('valor').value;
+                nomeProprietario = document.getElementById('nomeProprietario').value;
+                cpfProprietario = document.getElementById('cpfProprietario').value;
+                nomeCondutor = document.getElementById('nomeCondutor').value;
+                cnhCondutor = document.getElementById('cnhCondutor').value;
+                categoriaCNH = document.getElementById('categoriaCNH').value;
+            } else {
+                placa = document.getElementById('placaProvisoria').value;
+                renavam = document.getElementById('renavamProvisoria').value;
+                marcaModelo = document.getElementById('marcaModelo').value;
+                cor = document.getElementById('cor').value;
+                ano = document.getElementById('ano').value;
+                valorProvisoria = document.getElementById('valorProvisoria').value;
+                nomeProprietario = document.getElementById('nomeProprietarioProvisoria').value;
+                cpfProprietario = document.getElementById('cpfProprietarioProvisoria').value;
+                nomeCondutor = document.getElementById('nomeCondutorProvisoria').value;
+                cnhCondutor = document.getElementById('cnhCondutorProvisoria').value;
+                categoriaCNH = document.getElementById('categoriaCNHProvisoria').value;
+                motivo = document.getElementById('motivo').value;
+                prazo = document.getElementById('prazo').value;
+            }
+            
+            // Gerar conteúdo do PDF
+            const pdfContainer = document.getElementById('pdfContainer');
+            
             if(type === 'liberacao') {
                 pdfContainer.innerHTML = `
                     <div class="pdf-header">
@@ -247,8 +890,25 @@
                 `;
             }
             
-            // [Mantido o resto da função]
+            // Mostrar página do PDF
+            if(type === 'liberacao') {
+                document.getElementById('formLiberacaoPage').classList.add('hidden');
+            } else {
+                document.getElementById('formProvisoriaPage').classList.add('hidden');
+            }
+            document.getElementById('pdfPage').classList.remove('hidden');
         }
+        
+        function imprimirPDF() {
+            window.print();
+        }
+        
+        // Permitir pressionar Enter para submeter a matrícula
+        document.getElementById('matricula').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verificarMatricula();
+            }
+        });
     </script>
 </body>
 </html>
