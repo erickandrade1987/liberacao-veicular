@@ -55,6 +55,7 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
+            width: 280px;
         }
         
         .login-btn:hover, .document-type-btn:hover {
@@ -655,42 +656,46 @@
         }
         
         function numeroPorExtenso(valor) {
+            // Remover caracteres não numéricos e converter para número
+            const valorNumerico = parseFloat(valor.replace(/[^\d,]/g, '').replace(',', '.'));
+            
+            // Se for zero ou não for um número válido
+            if (isNaN(valorNumerico) || valorNumerico === 0) {
+                return "zero reais";
+            }
+            
             const unidades = ["", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
             const especiais = ["dez", "onze", "doze", "treze", "catorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
             const dezenas = ["", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
-            const centenas = ["", "cem", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
+            const centenas = ["", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
             
-            let valorStr = valor.replace(',', '.').replace('R$', '').trim();
+            let valorStr = valorNumerico.toFixed(2);
             let partes = valorStr.split('.');
             let inteiro = parseInt(partes[0]);
-            let decimal = partes.length > 1 ? parseInt(partes[1].padEnd(2, '0').substring(0, 2)) : 0;
+            let decimal = parseInt(partes[1]);
             
             let resultado = "";
             
             // Parte inteira
-            if (inteiro === 0) {
-                resultado = "zero";
-            } else if (inteiro === 100) {
+            if (inteiro === 100) {
                 resultado = "cem";
+            } else if (inteiro > 100) {
+                resultado += centenas[Math.floor(inteiro / 100)];
+                inteiro = inteiro % 100;
+                if (inteiro > 0) resultado += " e ";
+            }
+            
+            if (inteiro >= 10 && inteiro < 20) {
+                resultado += especiais[inteiro - 10];
             } else {
-                if (inteiro >= 100) {
-                    resultado += centenas[Math.floor(inteiro / 100)];
-                    inteiro = inteiro % 100;
+                if (inteiro >= 20) {
+                    resultado += dezenas[Math.floor(inteiro / 10)];
+                    inteiro = inteiro % 10;
                     if (inteiro > 0) resultado += " e ";
                 }
                 
-                if (inteiro >= 10 && inteiro < 20) {
-                    resultado += especiais[inteiro - 10];
-                } else {
-                    if (inteiro >= 20) {
-                        resultado += dezenas[Math.floor(inteiro / 10)];
-                        inteiro = inteiro % 10;
-                        if (inteiro > 0) resultado += " e ";
-                    }
-                    
-                    if (inteiro > 0) {
-                        resultado += unidades[inteiro];
-                    }
+                if (inteiro > 0) {
+                    resultado += unidades[inteiro];
                 }
             }
             
