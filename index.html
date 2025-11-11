@@ -326,42 +326,42 @@
             <form id="vehicleFormLiberacao">
                 <div class="form-group">
                     <label for="placa">Placa do Veículo:</label>
-                    <input type="text" id="placa" placeholder="Ex: MBY3809" required>
+                    <input type="text" id="placa" placeholder="AAA-0000" maxlength="8" oninput="formatarPlaca(this)" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="renavam">RENAVAM:</label>
-                    <input type="text" id="renavam" placeholder="Ex: 13184521360" required>
+                    <input type="text" id="renavam" placeholder="00000000000" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="cidadeEstado">Cidade/Estado:</label>
-                    <input type="text" id="cidadeEstado" placeholder="Ex: ITAPOA/SC" required>
+                    <input type="text" id="cidadeEstado" placeholder="ITAPOA/SC" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="valor">Valor do Serviço (R$):</label>
-                    <input type="text" id="valor" placeholder="Ex: 100,00" required>
+                    <input type="text" id="valor" placeholder="100,00" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="nomeProprietario">Nome do Proprietário:</label>
-                    <input type="text" id="nomeProprietario" placeholder="Ex: ERICK" required>
+                    <input type="text" id="nomeProprietario" placeholder="Nome completo" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="cpfProprietario">CPF do Proprietário:</label>
-                    <input type="text" id="cpfProprietario" placeholder="Ex: 05682203909" required>
+                    <input type="text" id="cpfProprietario" placeholder="000.000.000-00" maxlength="14" oninput="formatarCPF(this)" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="nomeCondutor">Nome do Condutor:</label>
-                    <input type="text" id="nomeCondutor" placeholder="Ex: THAIS" required>
+                    <input type="text" id="nomeCondutor" placeholder="Nome completo" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="cnhCondutor">CNH do Condutor:</label>
-                    <input type="text" id="cnhCondutor" placeholder="Ex: 05682203909" required>
+                    <input type="text" id="cnhCondutor" placeholder="00000000000" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                 </div>
                 
                 <div class="form-group">
@@ -375,6 +375,8 @@
                         <option value="D">D</option>
                         <option value="E">E</option>
                         <option value="AE">AE</option>
+                        <option value="AC">AC</option>
+                        <option value="AD">AD</option>
                     </select>
                 </div>
                 
@@ -392,47 +394,52 @@
             <form id="vehicleFormProvisoria">
                 <div class="form-group">
                     <label for="placaProvisoria">Placa do Veículo:</label>
-                    <input type="text" id="placaProvisoria" placeholder="Ex: MBY3809" required>
+                    <input type="text" id="placaProvisoria" placeholder="AAA-0000" maxlength="8" oninput="formatarPlaca(this)" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="renavamProvisoria">RENAVAM:</label>
-                    <input type="text" id="renavamProvisoria" placeholder="Ex: 13184521360" required>
+                    <input type="text" id="renavamProvisoria" placeholder="00000000000" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="marcaModelo">Marca/Modelo:</label>
-                    <input type="text" id="marcaModelo" placeholder="Ex: FIAT/UNO" required>
+                    <input type="text" id="marcaModelo" placeholder="FIAT/UNO" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="cor">Cor:</label>
-                    <input type="text" id="cor" placeholder="Ex: PRATA" required>
+                    <input type="text" id="cor" placeholder="PRATA" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="ano">Ano:</label>
-                    <input type="text" id="ano" placeholder="Ex: 2015" required>
+                    <input type="text" id="ano" placeholder="2015" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="valorProvisoria">Valor do Serviço (R$):</label>
+                    <input type="text" id="valorProvisoria" placeholder="100,00" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="nomeProprietarioProvisoria">Nome do Proprietário:</label>
-                    <input type="text" id="nomeProprietarioProvisoria" placeholder="Ex: ERICK" required>
+                    <input type="text" id="nomeProprietarioProvisoria" placeholder="Nome completo" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="cpfProprietarioProvisoria">CPF do Proprietário:</label>
-                    <input type="text" id="cpfProprietarioProvisoria" placeholder="Ex: 05682203909" required>
+                    <input type="text" id="cpfProprietarioProvisoria" placeholder="000.000.000-00" maxlength="14" oninput="formatarCPF(this)" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="nomeCondutorProvisoria">Nome do Condutor:</label>
-                    <input type="text" id="nomeCondutorProvisoria" placeholder="Ex: THAIS" required>
+                    <input type="text" id="nomeCondutorProvisoria" placeholder="Nome completo" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="cnhCondutorProvisoria">CNH do Condutor:</label>
-                    <input type="text" id="cnhCondutorProvisoria" placeholder="Ex: 05682203909" required>
+                    <input type="text" id="cnhCondutorProvisoria" placeholder="00000000000" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                 </div>
                 
                 <div class="form-group">
@@ -446,6 +453,8 @@
                         <option value="D">D</option>
                         <option value="E">E</option>
                         <option value="AE">AE</option>
+                        <option value="AC">AC</option>
+                        <option value="AD">AD</option>
                     </select>
                 </div>
                 
@@ -565,6 +574,34 @@
             }
         }
         
+        // Função para formatar CPF
+        function formatarCPF(campo) {
+            let cpf = campo.value.replace(/\D/g, '');
+            
+            if (cpf.length > 3) {
+                cpf = cpf.substring(0, 3) + '.' + cpf.substring(3);
+            }
+            if (cpf.length > 7) {
+                cpf = cpf.substring(0, 7) + '.' + cpf.substring(7);
+            }
+            if (cpf.length > 11) {
+                cpf = cpf.substring(0, 11) + '-' + cpf.substring(11, 13);
+            }
+            
+            campo.value = cpf;
+        }
+        
+        // Função para formatar placa
+        function formatarPlaca(campo) {
+            let placa = campo.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            
+            if (placa.length > 3) {
+                placa = placa.substring(0, 3) + '-' + placa.substring(3, 7);
+            }
+            
+            campo.value = placa;
+        }
+        
         function formatarData() {
             const now = new Date();
             const dia = now.getDate().toString().padStart(2, '0');
@@ -661,7 +698,7 @@
             
             // Coletar dados do formulário
             let placa, renavam, cidadeEstado, valor, nomeProprietario, cpfProprietario, nomeCondutor, cnhCondutor, categoriaCNH;
-            let marcaModelo, cor, ano, motivo, prazo;
+            let marcaModelo, cor, ano, motivo, prazo, valorProvisoria;
             
             if(type === 'liberacao') {
                 placa = document.getElementById('placa').value;
@@ -679,6 +716,7 @@
                 marcaModelo = document.getElementById('marcaModelo').value;
                 cor = document.getElementById('cor').value;
                 ano = document.getElementById('ano').value;
+                valorProvisoria = document.getElementById('valorProvisoria').value;
                 nomeProprietario = document.getElementById('nomeProprietarioProvisoria').value;
                 cpfProprietario = document.getElementById('cpfProprietarioProvisoria').value;
                 nomeCondutor = document.getElementById('nomeCondutorProvisoria').value;
@@ -766,6 +804,7 @@
                         </div>
                         
                         <div class="pdf-section">
+                            <p><strong>VALOR DO SERVIÇO:</strong> R$${valorProvisoria} (${numeroPorExtenso(valorProvisoria)})</p>
                             <p><strong>MOTIVO DA LIBERAÇÃO PROVISÓRIA:</strong> ${motivo}</p>
                             <p><strong>PRAZO PARA REGULARIZAÇÃO:</strong> ${formatarDataParaExibicao(prazo)}</p>
                         </div>
@@ -813,7 +852,63 @@
         }
         
         function imprimirPDF() {
-            window.print();
+            // Definir nome do arquivo baseado no tipo de documento
+            const nomeArquivo = documentType === 'liberacao' ? 'liberacao' : 'liberacao-provisoria';
+            
+            // Criar um iframe para impressão com nome personalizado
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeDoc.write(`
+                <html>
+                    <head>
+                        <title>${documentType === 'liberacao' ? 'TERMO DE ENTREGA E LIBERAÇÃO' : 'TERMO DE ENTREGA E LIBERAÇÃO PROVISÓRIA'}</title>
+                        <style>
+                            body { 
+                                font-family: Arial, sans-serif; 
+                                margin: 0;
+                                padding: 15mm;
+                            }
+                            .pdf-container {
+                                max-width: 100%;
+                            }
+                            .pdf-footer {
+                                position: fixed;
+                                bottom: 15mm;
+                                left: 15mm;
+                                right: 15mm;
+                                text-align: center;
+                                font-size: 12px;
+                                border-top: 1px solid #333;
+                                padding-top: 10px;
+                            }
+                            @media print {
+                                .pdf-footer {
+                                    position: fixed;
+                                    bottom: 15mm;
+                                }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ${document.getElementById('pdfContainer').innerHTML}
+                    </body>
+                </html>
+            `);
+            iframeDoc.close();
+            
+            // Aguardar o carregamento do iframe e então imprimir
+            iframe.onload = function() {
+                iframe.contentWindow.focus();
+                iframe.contentWindow.print();
+                
+                // Remover o iframe após a impressão
+                setTimeout(() => {
+                    document.body.removeChild(iframe);
+                }, 1000);
+            };
         }
         
         // Permitir pressionar Enter para submeter a matrícula
